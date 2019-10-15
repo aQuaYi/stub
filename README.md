@@ -3,6 +3,9 @@
 [![Build Status](https://travis-ci.org/aQuaYi/stub.svg?branch=master)](https://travis-ci.org/aQuaYi/stub)
 [![codecov](https://codecov.io/gh/aQuaYi/stub/branch/master/graph/badge.svg)](https://codecov.io/gh/aQuaYi/stub)
 [![GoDoc](https://godoc.org/github.com/aQuaYi/stub?status.svg)](https://godoc.org/github.com/aQuaYi/stub)
+[![Go Report Card](https://goreportcard.com/badge/github.com/aQuaYi/stub)](https://goreportcard.com/report/github.com/aQuaYi/stub)
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE)
+[![Go](https://img.shields.io/badge/Go-1.13+-blue.svg)](https://golang.google.cn)
 
 gostub is a library to make stubbing in unit tests easy.
 
