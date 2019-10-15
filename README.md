@@ -58,6 +58,13 @@ import (
 - Stub：对变量的内容进行替换。
 - Restore：恢复变量到打桩前的值。
 
+两者必须配对使用，就像这样：
+
+```go
+stubs := Stub(...)
+defer stubs.Restore()
+```
+
 ### 对变量打桩
 
 ```go
@@ -110,7 +117,7 @@ var osHostname = osHostname
 // [...] production code using osHostname to call it.
 
 // Test code:
-stubs := gostub.StubFunc(&osHostname, "fakehost", nil)
+stubs := StubFunc(&osHostname, "fakehost", nil)
 defer stubs.Restore()
 ```
 
