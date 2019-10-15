@@ -1,15 +1,15 @@
 # gostub
 
-[![Build Status](https://travis-ci.org/prashantv/gostub.svg?branch=master)](https://travis-ci.org/prashantv/gostub)
-[![GoDoc](https://godoc.org/github.com/prashantv/gostub?status.svg)](https://godoc.org/github.com/prashantv/gostub)
-[![Coverage Status](https://coveralls.io/repos/github/prashantv/gostub/badge.svg?branch=master)](https://coveralls.io/github/prashantv/gostub?branch=master)
+[![Build Status](https://travis-ci.org/aQuaYi/stub.svg?branch=master)](https://travis-ci.org/aQuaYi/stub)
+[![codecov](https://codecov.io/gh/aQuaYi/stub/branch/master/graph/badge.svg)](https://codecov.io/gh/aQuaYi/stub)
+[![GoDoc](https://godoc.org/github.com/aQuaYi/stub?status.svg)](https://godoc.org/github.com/aQuaYi/stub)
 
 gostub is a library to make stubbing in unit tests easy.
 
 ## Getting started
 
 Import the following package:
-`github.com/prashantv/gostub`
+`github.com/aQuaYi/stub`
 
 Click [here](https://godoc.org/github.com/prashantv/gostub) to read the [API documentation](https://godoc.org/github.com/prashantv/gostub).
 
