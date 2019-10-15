@@ -111,7 +111,7 @@ func TestMultipleStubFuncs(t *testing.T) {
 	stubs.StubFunc(&f3, 3)
 	expectVal(t, f3(), 3)
 
-	stubs.Reset()
+	stubs.Restore()
 	expectVal(t, f1(), 100)
 	expectVal(t, f2(), 200)
 	expectVal(t, f3(), 300)

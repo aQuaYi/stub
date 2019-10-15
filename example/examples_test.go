@@ -10,7 +10,7 @@ import (
 func ExampleStubFunc() {
 	var osHostname = os.Hostname
 
-	defer gostub.StubFunc(&osHostname, "fakehost", nil).Reset()
+	defer gostub.StubFunc(&osHostname, "fakehost", nil).Restore()
 	host, err := osHostname()
 
 	fmt.Println("Host:", host, "err:", err)
@@ -21,7 +21,7 @@ func ExampleStubFunc() {
 func ExampleStub() {
 	var counter = 100
 
-	defer gostub.Stub(&counter, 200).Reset()
+	defer gostub.Stub(&counter, 200).Restore()
 	fmt.Println("Counter:", counter)
 	// Output:
 	// Counter: 200

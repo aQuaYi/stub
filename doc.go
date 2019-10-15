@@ -30,14 +30,14 @@ You can test this by using gostub to stub the timeNow variable:
   stubs := gostub.Stub(&timeNow, func() time.Time {
     return time.Date(2015, 6, 1, 0, 0, 0, 0, time.UTC)
   })
-  defer stubs.Reset()
+  defer stubs.Restore()
 
   // Test can check that GetDate returns 6
 
 If you are stubbing a function to return a constant value like in
 the above test, you can use StubFunc instead:
   stubs := gostub.StubFunc(&timeNow, time.Date(2015, 6, 1, 0, 0, 0, 0, time.UTC))
-  defer stubs.Reset()
+  defer stubs.Restore()
 
 StubFunc can also be used to stub functions that return multiple values:
   var osHostname = osHostname
@@ -45,14 +45,14 @@ StubFunc can also be used to stub functions that return multiple values:
 
   // Test code:
   stubs := gostub.StubFunc(&osHostname, "fakehost", nil)
-  defer stubs.Reset()
+  defer stubs.Restore()
 
 StubEnv can be used to setup environment variables for tests, and the environment
 values are reset to their original values upon Reset:
 
   stubs := gostub.New()
   stubs.SetEnv("GOSTUB_VAR", "test_value")
-  defer stubs.Reset()
+  defer stubs.Restore()
 
 The Reset method should be deferred to run at the end of the test to reset
 all stubbed variables back to their original values.
@@ -60,17 +60,17 @@ all stubbed variables back to their original values.
 You can set up multiple stubs by calling Stub again:
   stubs := gostub.Stub(&v1, 1)
   stubs.Stub(&v2, 2)
-  defer stubs.Reset()
+  defer stubs.Restore()
 
 For simple cases where you are only setting up simple stubs, you can condense
 the setup and cleanup into a single line:
-  defer gostub.Stub(&v1, 1).Stub(&v2, 2).Reset()
+  defer gostub.Stub(&v1, 1).Stub(&v2, 2).Restore()
 This sets up the stubs and then defers the Reset call.
 
 You should keep the return argument from the Stub call if you need to change
 stubs or add more stubs during test execution:
   stubs := gostub.Stub(&v1, 1)
-  defer stubs.Reset()
+  defer stubs.Restore()
 
   // Do some testing
   stubs.Stub(&v1, 5)

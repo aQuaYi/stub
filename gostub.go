@@ -106,8 +106,8 @@ func FuncReturning(funcType reflect.Type, results ...interface{}) reflect.Value 
 	})
 }
 
-// Reset resets all stubbed variables back to their original values.
-func (s *Stubs) Reset() {
+// Restore resets all stubbed variables back to their original values.
+func (s *Stubs) Restore() {
 	for v, originalVal := range s.stubs {
 		v.Elem().Set(originalVal)
 	}

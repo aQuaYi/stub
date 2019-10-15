@@ -15,7 +15,7 @@ var dataReader io.Reader = bytes.NewReader([]byte(productionData))
 func TestAssignableStub(t *testing.T) {
 	const testData = "test data"
 	stubs := Stub(&dataReader, strings.NewReader(testData))
-	defer stubs.Reset()
+	defer stubs.Restore()
 
 	got, err := ioutil.ReadAll(dataReader)
 	if err != nil {

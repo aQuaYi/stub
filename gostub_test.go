@@ -22,7 +22,7 @@ func TestStub(t *testing.T) {
 		t.Errorf("expected")
 	}
 	expectVal(t, v1, 1)
-	stubs.Reset()
+	stubs.Restore()
 	expectVal(t, v1, 100)
 }
 
@@ -33,7 +33,7 @@ func TestRestub(t *testing.T) {
 	expectVal(t, v1, 1)
 	stubs.Stub(&v1, 2)
 	expectVal(t, v1, 2)
-	stubs.Reset()
+	stubs.Restore()
 	expectVal(t, v1, 100)
 }
 
@@ -48,7 +48,7 @@ func TestResetSingle(t *testing.T) {
 	expectVal(t, v1, 100)
 	expectVal(t, v2, 2)
 
-	stubs.Reset()
+	stubs.Restore()
 	expectVal(t, v1, 100)
 	expectVal(t, v2, 200)
 }
@@ -69,13 +69,13 @@ func TestResetTwice(t *testing.T) {
 	stubs := Stub(&v1, 1)
 	expectVal(t, v1, 1)
 
-	stubs.Reset()
+	stubs.Restore()
 	expectVal(t, v1, 100)
 
 	stubs.Stub(&v1, 2)
 	expectVal(t, v1, 2)
 
-	stubs.Reset()
+	stubs.Restore()
 	expectVal(t, v1, 100)
 }
 
@@ -91,7 +91,7 @@ func TestMultipleStubs(t *testing.T) {
 	stubs.Stub(&v4, 4)
 	expectVal(t, v4, 4)
 
-	stubs.Reset()
+	stubs.Restore()
 	expectVal(t, v1, 100)
 	expectVal(t, v2, 200)
 	expectVal(t, v3, 300)

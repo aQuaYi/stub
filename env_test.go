@@ -24,7 +24,7 @@ func TestStubEnv(t *testing.T) {
 	assert.Equal(t, "3", os.Getenv("GOSTUB_T1"), "Wrong value for T1")
 	assert.Equal(t, "", os.Getenv("GOSTUB_T2"), "Wrong value for T2")
 	assert.Equal(t, "a", os.Getenv("GOSTUB_NONE"), "Wrong value for NONE")
-	stubs.Reset()
+	stubs.Restore()
 
 	_, ok := os.LookupEnv("GOSTUB_NONE")
 	assert.False(t, ok, "NONE should be unset")

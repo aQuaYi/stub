@@ -20,7 +20,7 @@ func Example_stubTimeWithFunction() {
 	stubs := gostub.Stub(&timeNow, func() time.Time {
 		return time.Date(2015, 07, day, 0, 0, 0, 0, time.UTC)
 	})
-	defer stubs.Reset()
+	defer stubs.Restore()
 
 	firstDay := GetDay()
 
@@ -35,7 +35,7 @@ func Example_stubTimeWithFunction() {
 // Test code
 func Example_stubTimeWithConstant() {
 	stubs := gostub.StubFunc(&timeNow, time.Date(2015, 07, 2, 0, 0, 0, 0, time.UTC))
-	defer stubs.Reset()
+	defer stubs.Restore()
 
 	fmt.Println("Day:", GetDay())
 	// Output:
