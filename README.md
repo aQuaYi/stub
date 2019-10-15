@@ -17,7 +17,7 @@ stub 让你在 Go 语言单元测试中轻松打桩。
   - [对变量打桩](#%e5%af%b9%e5%8f%98%e9%87%8f%e6%89%93%e6%a1%a9)
   - [对函数打桩](#%e5%af%b9%e5%87%bd%e6%95%b0%e6%89%93%e6%a1%a9)
   - [对环境变量打桩](#%e5%af%b9%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e6%89%93%e6%a1%a9)
-  - [`Stubs` 对象的小技巧](#stubs-%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b0%8f%e6%8a%80%e5%b7%a7)
+  - [小技巧](#%e5%b0%8f%e6%8a%80%e5%b7%a7)
 
 ## 安装
 
@@ -130,7 +130,7 @@ stubs := StubEnv("GOSTUB_VAR", "test_value")
 defer stubs.Restore()
 ```
 
-### `Stubs` 对象的小技巧
+### 小技巧
 
 `Stubs` 对象能够被反复使用，并用 `Restore` 方法一次恢复全部桩。
 
