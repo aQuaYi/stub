@@ -1,5 +1,5 @@
 /*
-Package gostub is used for stubbing variables in tests, and resetting the
+package stub is used for stubbing variables in tests, and resetting the
 original value once the test has been run.
 
 This can be used to stub static variables as well as static functions. To
@@ -81,7 +81,7 @@ stubs or add more stubs during test execution:
 The Stub call must be passed a pointer to the variable that should be stubbed,
 and a value which can be assigned to the variable.
 */
-package gostub
+package stub
 
 // FIXME: godocdown no longer works with go syntax highlighting.
 //go:generate godocdown -template README.md.tmpl --output=README.md

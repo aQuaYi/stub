@@ -1,1 +1,1 @@
-package gostub_test
+package stub_test

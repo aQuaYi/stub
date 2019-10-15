@@ -1,4 +1,4 @@
-# gostub
+# stub
 
 [![Build Status](https://travis-ci.org/aQuaYi/stub.svg?branch=master)](https://travis-ci.org/aQuaYi/stub)
 [![codecov](https://codecov.io/gh/aQuaYi/stub/branch/master/graph/badge.svg)](https://codecov.io/gh/aQuaYi/stub)
@@ -7,7 +7,23 @@
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE)
 [![Go](https://img.shields.io/badge/Go-1.13+-blue.svg)](https://golang.google.cn)
 
-gostub is a library to make stubbing in unit tests easy.
+stub 让你在 Go 语言单元测试中轻松打桩。
+
+- [安装](#%e5%ae%89%e8%a3%85)
+- [导入](#%e5%af%bc%e5%85%a5)
+- [Getting started](#getting-started)
+- [Package overview](#package-overview)
+
+## 安装
+
+```shell
+$ go get -u -v github.com/aQuaYi/stub
+$
+```
+
+## 导入
+
+
 
 ## Getting started
 
@@ -18,7 +34,7 @@ Click [here](https://godoc.org/github.com/prashantv/gostub) to read the [API doc
 
 ## Package overview
 
-Package gostub is used for stubbing variables in tests, and resetting the
+package stub is used for stubbing variables in tests, and resetting the
 original value once the test has been run.
 
 This can be used to stub static variables as well as static functions. To stub a
