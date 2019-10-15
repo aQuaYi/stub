@@ -17,7 +17,7 @@ stub 让你在 Go 语言单元测试中轻松打桩。
   - [对变量打桩](#%e5%af%b9%e5%8f%98%e9%87%8f%e6%89%93%e6%a1%a9)
   - [对函数打桩](#%e5%af%b9%e5%87%bd%e6%95%b0%e6%89%93%e6%a1%a9)
   - [对环境变量打桩](#%e5%af%b9%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e6%89%93%e6%a1%a9)
-  - [stubs 对象的小技巧](#stubs-%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b0%8f%e6%8a%80%e5%b7%a7)
+  - [`Stubs` 对象的小技巧](#stubs-%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b0%8f%e6%8a%80%e5%b7%a7)
 
 ## 安装
 
@@ -123,21 +123,16 @@ defer stubs.Restore()
 
 ### 对环境变量打桩
 
-StubEnv can be used to setup environment variables for tests, and the
-environment values are reset to their original values upon Reset:
+`StubEnv` 可以对环境变量打桩，并在事后轻易地恢复。
 
 ```go
-stubs := stub.New()
-stubs.SetEnv("GOSTUB_VAR", "test_value")
+stubs := StubEnv("GOSTUB_VAR", "test_value")
 defer stubs.Restore()
 ```
 
-The Reset method should be deferred to run at the end of the test to reset all
-stubbed variables back to their original values.
+### `Stubs` 对象的小技巧
 
-### stubs 对象的小技巧
-
-You can set up multiple stubs by calling Stub again:
+`Stubs` 对象能够被反复使用，并用 `Restore` 方法一次恢复全部桩。
 
 ```go
 stubs := Stub(&v1, 1)
@@ -145,17 +140,13 @@ stubs.Stub(&v2, 2)
 defer stubs.Restore()
 ```
 
-For simple cases where you are only setting up simple stubs, you can condense
-the setup and cleanup into a single line:
+对于简单的打桩，还可以在一行内完成打桩和恢复工作。
 
 ```go
-defer gostub.Stub(&v1, 1).Stub(&v2, 2).Restore()
+defer Stub(&v1, 1).Stub(&v2, 2).Restore()
 ```
 
-This sets up the stubs and then defers the Reset call.
-
-You should keep the return argument from the Stub call if you need to change
-stubs or add more stubs during test execution:
+同一个 `stubs` 对象，可以进行多次打桩，并只需要一次 `Restore`。
 
 ```go
 stubs := Stub(&v1, 1)
@@ -167,6 +158,3 @@ stubs.Stub(&v1, 5)
 // More testing
 stubs.Stub(&b2, 6)
 ```
-
-The Stub call must be passed a pointer to the variable that should be stubbed,
-and a value which can be assigned to the variable.
