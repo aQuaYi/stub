@@ -32,8 +32,8 @@ type env struct {
 	ok  bool
 }
 
-// New returns Stubs that can be used to stub out variables.
-func New() Stubber {
+// newStubber returns Stubs that can be used to stub out variables.
+func newStubber() Stubber {
 	return &stubs{
 		vars: make(map[reflect.Value]reflect.Value),
 		envs: make(map[string]env),
@@ -42,8 +42,6 @@ func New() Stubber {
 
 // Restore resets all stubbed variables back to their original values.
 func (s *stubs) Restore() {
-	for v, originalVal := range s.vars {
-		v.Elem().Set(originalVal)
-	}
-	s.resetEnv()
+	s.restoreVars()
+	s.restoreEnv()
 }
