@@ -1,6 +1,8 @@
 package stub
 
-import "reflect"
+import (
+	"reflect"
+)
 
 // Stubber 包含了打桩时所需的方法，以及恢复的方法。
 type Stubber interface {
@@ -36,4 +38,12 @@ func New() Stubber {
 		vars: make(map[reflect.Value]reflect.Value),
 		envs: make(map[string]env),
 	}
+}
+
+// Restore resets all stubbed variables back to their original values.
+func (s *stubs) Restore() {
+	for v, originalVal := range s.vars {
+		v.Elem().Set(originalVal)
+	}
+	s.resetEnv()
 }
