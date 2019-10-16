@@ -29,7 +29,7 @@ func (s *stubs) Func(funcPtr interface{}, returns ...interface{}) Stubber {
 			funcType.NumOut(), len(returns)))
 	}
 	//
-	return s.Var(funcPtr, fakeFunc(funcPtrType.Elem(), returns...).Interface())
+	return s.Var(funcPtr, fakeFunc(funcType, returns...).Interface())
 }
 
 // fakeFunc creates a new function with type funcType that returns results.
