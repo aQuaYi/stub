@@ -104,11 +104,11 @@ func TestMultipleStubFuncs(t *testing.T) {
 		return 300
 	}
 
-	stubs := Func(&f1, 1).StubFunc(&f2, 2)
+	stubs := Func(&f1, 1).Func(&f2, 2)
 	expectVal(t, f1(), 1)
 	expectVal(t, f2(), 2)
 
-	stubs.StubFunc(&f3, 3)
+	stubs.Func(&f3, 3)
 	expectVal(t, f3(), 3)
 
 	stubs.Restore()

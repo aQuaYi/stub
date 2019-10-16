@@ -2,44 +2,42 @@ package stub
 
 import "os"
 
-func (s *Stubs) checkEnvKey(k string) {
-	if _, ok := s.origEnv[k]; !ok {
+// Env stubs environmental variable
+func Env(k, v string) Stubber {
+	return New().Env(k, v)
+}
+
+func (s *stubs) checkEnvKey(k string) {
+	if _, ok := s.envs[k]; !ok {
 		v, ok := os.LookupEnv(k)
-		s.origEnv[k] = envVal{v, ok}
+		s.envs[k] = env{v, ok}
 	}
 }
 
-// Env stubs environmental variable
-func Env(k, v string) *Stubs {
-	s := New()
-	s.Env(k, v)
-	return s
-}
-
 // Env the specified environent variable to the specified value.
-func (s *Stubs) Env(k, v string) *Stubs {
+func (s *stubs) Env(k, v string) Stubber {
 	s.checkEnvKey(k)
 	os.Setenv(k, v)
 	return s
 }
 
-// SetEnv the specified environent variable to the specified value.
-func (s *Stubs) SetEnv(k, v string) *Stubs {
-	s.checkEnvKey(k)
-	os.Setenv(k, v)
-	return s
-}
+// // SetEnv the specified environent variable to the specified value.
+// func (s *stubs) SetEnv(k, v string) *stubs {
+// 	s.checkEnvKey(k)
+// 	os.Setenv(k, v)
+// 	return s
+// }
 
-// UnsetEnv unsets the specified environent variable.
-func (s *Stubs) UnsetEnv(k string) *Stubs {
+// UnsetEnv unset the specified environent variable.
+func (s *stubs) UnsetEnv(k string) *stubs {
 	s.checkEnvKey(k)
 
 	os.Unsetenv(k)
 	return s
 }
 
-func (s *Stubs) resetEnv() {
-	for k, v := range s.origEnv {
+func (s *stubs) resetEnv() {
+	for k, v := range s.envs {
 		if v.ok {
 			os.Setenv(k, v.val)
 		} else {

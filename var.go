@@ -5,59 +5,15 @@ import (
 	"reflect"
 )
 
-// Stubber 包含了打桩时所需的方法，以及恢复的方法。
-type Stubber interface {
-	// Stub 会把 *original 变量替换成 fake 变量的内容。
-	// NOTICE: 函数在 Go 语言中，也是一种变量。
-	Var(original, fake interface{})
-
-	// StubFunc 会把原先 *fn 替换成另一个函数，其具有固定的返回值 returns。
-	Func(fn interface{}, returns ...interface{})
-
-	// StubEnv 会更改环境变量的值。
-	Env(key, value string)
-
-	// Restore 会把 Stubber 替换过的所有值，全部还原。
-	Restore()
-}
-
 // Var replaces the *original with fake variable.
-func Var(original interface{}, fake interface{}) *Stubs {
-	return New().Stub(original, fake)
+func Var(original interface{}, fake interface{}) Stubber {
+	return New().Var(original, fake)
 }
 
-// Func replaces a function variable with a function that returns stubVal.
-// funcVarToStub must be a pointer to a function variable. If the function
-// returns multiple values, then multiple values should be passed to stubFunc.
-// The values must match be assignable to the return values' types.
-func Func(fn interface{}, returns ...interface{}) *Stubs {
-	return New().StubFunc(fn, returns...)
-}
-
-type envVal struct {
-	val string
-	ok  bool
-}
-
-// Stubs represents a set of stubbed variables that can be reset.
-type Stubs struct {
-	// stubs is a map from the variable pointer (being stubbed) to the original value.
-	stubs   map[reflect.Value]reflect.Value
-	origEnv map[string]envVal
-}
-
-// New returns Stubs that can be used to stub out variables.
-func New() *Stubs {
-	return &Stubs{
-		stubs:   make(map[reflect.Value]reflect.Value),
-		origEnv: make(map[string]envVal),
-	}
-}
-
-// Stub replaces the value stored at varToStub with stubVal.
+// Var replaces the value stored at varToStub with stubVal.
 // varToStub must be a pointer to the variable. stubVal should have a type
 // that is assignable to the variable.
-func (s *Stubs) Stub(varToStub interface{}, stubVal interface{}) *Stubs {
+func (s *stubs) Var(varToStub interface{}, stubVal interface{}) Stubber {
 	v := reflect.ValueOf(varToStub)
 	stub := reflect.ValueOf(stubVal)
 
@@ -66,9 +22,9 @@ func (s *Stubs) Stub(varToStub interface{}, stubVal interface{}) *Stubs {
 		panic("variable to stub is expected to be a pointer")
 	}
 
-	if _, ok := s.stubs[v]; !ok {
+	if _, ok := s.vars[v]; !ok {
 		// Store the original value if this is the first time varPtr is being stubbed.
-		s.stubs[v] = reflect.ValueOf(v.Elem().Interface())
+		s.vars[v] = reflect.ValueOf(v.Elem().Interface())
 	}
 
 	// *varToStub = stubVal
@@ -76,11 +32,11 @@ func (s *Stubs) Stub(varToStub interface{}, stubVal interface{}) *Stubs {
 	return s
 }
 
-// StubFunc replaces a function variable with a function that returns stubVal.
+// Func replaces a function variable with a function that returns stubVal.
 // funcVarToStub must be a pointer to a function variable. If the function
 // returns multiple values, then multiple values should be passed to stubFunc.
 // The values must match be assignable to the return values' types.
-func (s *Stubs) StubFunc(funcVarToStub interface{}, stubVal ...interface{}) *Stubs {
+func (s *stubs) Func(funcVarToStub interface{}, stubVal ...interface{}) Stubber {
 	funcPtrType := reflect.TypeOf(funcVarToStub)
 	if funcPtrType.Kind() != reflect.Ptr ||
 		funcPtrType.Elem().Kind() != reflect.Func {
@@ -92,7 +48,7 @@ func (s *Stubs) StubFunc(funcVarToStub interface{}, stubVal ...interface{}) *Stu
 			funcType.NumOut(), len(stubVal)))
 	}
 
-	return s.Stub(funcVarToStub, FuncReturning(funcPtrType.Elem(), stubVal...).Interface())
+	return s.Var(funcVarToStub, FuncReturning(funcPtrType.Elem(), stubVal...).Interface())
 }
 
 // FuncReturning creates a new function with type funcType that returns results.
@@ -121,17 +77,17 @@ func FuncReturning(funcType reflect.Type, results ...interface{}) reflect.Value 
 }
 
 // Restore resets all stubbed variables back to their original values.
-func (s *Stubs) Restore() {
-	for v, originalVal := range s.stubs {
+func (s *stubs) Restore() {
+	for v, originalVal := range s.vars {
 		v.Elem().Set(originalVal)
 	}
 	s.resetEnv()
 }
 
 // ResetSingle resets a single stubbed variable back to its original value.
-func (s *Stubs) ResetSingle(varToStub interface{}) {
+func (s *stubs) ResetSingle(varToStub interface{}) {
 	v := reflect.ValueOf(varToStub)
-	originalVal, ok := s.stubs[v]
+	originalVal, ok := s.vars[v]
 	if !ok {
 		panic("cannot reset variable as it has not been stubbed yet")
 	}
