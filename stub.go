@@ -5,19 +5,33 @@ import (
 	"reflect"
 )
 
-// Stub replaces the value stored at varToStub with stubVal.
-// varToStub must be a pointer to the variable. stubVal should have a type
-// that is assignable to the variable.
-func Stub(varToStub interface{}, stubVal interface{}) *Stubs {
-	return New().Stub(varToStub, stubVal)
+// Stubber 包含了打桩时所需的方法，以及恢复的方法。
+type Stubber interface {
+	// Stub 会把 *original 变量替换成 fake 变量的内容。
+	// NOTICE: 函数在 Go 语言中，也是一种变量。
+	Var(original, fake interface{})
+
+	// StubFunc 会把原先 *fn 替换成另一个函数，其具有固定的返回值 returns。
+	Func(fn interface{}, returns ...interface{})
+
+	// StubEnv 会更改环境变量的值。
+	Env(key, value string)
+
+	// Restore 会把 Stubber 替换过的所有值，全部还原。
+	Restore()
 }
 
-// StubFunc replaces a function variable with a function that returns stubVal.
+// Var replaces the *original with fake variable.
+func Var(original interface{}, fake interface{}) *Stubs {
+	return New().Stub(original, fake)
+}
+
+// Func replaces a function variable with a function that returns stubVal.
 // funcVarToStub must be a pointer to a function variable. If the function
 // returns multiple values, then multiple values should be passed to stubFunc.
 // The values must match be assignable to the return values' types.
-func StubFunc(funcVarToStub interface{}, stubVal ...interface{}) *Stubs {
-	return New().StubFunc(funcVarToStub, stubVal...)
+func Func(fn interface{}, returns ...interface{}) *Stubs {
+	return New().StubFunc(fn, returns...)
 }
 
 type envVal struct {

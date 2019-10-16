@@ -11,31 +11,31 @@ func TestStubTime(t *testing.T) {
 	var timeNow = time.Now
 
 	var fakeTime = time.Date(2015, 7, 1, 0, 0, 0, 0, time.UTC)
-	StubFunc(&timeNow, fakeTime)
+	Func(&timeNow, fakeTime)
 	expectVal(t, fakeTime, timeNow())
 }
 
 func TestReturnErr(t *testing.T) {
 	var osRemove = os.Remove
 
-	StubFunc(&osRemove, nil)
+	Func(&osRemove, nil)
 	expectVal(t, nil, osRemove("test"))
 
 	e := errors.New("err")
-	StubFunc(&osRemove, e)
+	Func(&osRemove, e)
 	expectVal(t, e, osRemove("test"))
 }
 
 func TestStubHostname(t *testing.T) {
 	var osHostname = os.Hostname
 
-	StubFunc(&osHostname, "fakehost", nil)
+	Func(&osHostname, "fakehost", nil)
 	hostname, err := osHostname()
 	expectVal(t, "fakehost", hostname)
 	expectVal(t, nil, err)
 
 	var errNoHost = errors.New("no hostname")
-	StubFunc(&osHostname, "", errNoHost)
+	Func(&osHostname, "", errNoHost)
 	hostname, err = osHostname()
 	expectVal(t, "", hostname)
 	expectVal(t, errNoHost, err)
@@ -49,7 +49,7 @@ func TestStubReturnFunc(t *testing.T) {
 	}
 
 	var errInception = errors.New("in limbo")
-	StubFunc(&retFunc, func() error {
+	Func(&retFunc, func() error {
 		return errInception
 	})
 	expectVal(t, errInception, retFunc()())
@@ -88,7 +88,7 @@ func TestStubFuncFail(t *testing.T) {
 	for _, tt := range tests {
 		func() {
 			defer expectPanic(t, tt.desc, tt.wantErr)
-			StubFunc(tt.toStub, tt.stubVals...)
+			Func(tt.toStub, tt.stubVals...)
 		}()
 	}
 }
@@ -104,7 +104,7 @@ func TestMultipleStubFuncs(t *testing.T) {
 		return 300
 	}
 
-	stubs := StubFunc(&f1, 1).StubFunc(&f2, 2)
+	stubs := Func(&f1, 1).StubFunc(&f2, 2)
 	expectVal(t, f1(), 1)
 	expectVal(t, f2(), 2)
 

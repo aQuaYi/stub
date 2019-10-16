@@ -17,7 +17,7 @@ func GetDay() int {
 // Test code
 func Example_stubTimeWithFunction() {
 	var day = 2
-	stubs := Stub(&timeNow, func() time.Time {
+	stubs := Var(&timeNow, func() time.Time {
 		return time.Date(2015, 07, day, 0, 0, 0, 0, time.UTC)
 	})
 	defer stubs.Restore()
@@ -34,7 +34,7 @@ func Example_stubTimeWithFunction() {
 
 // Test code
 func Example_stubTimeWithConstant() {
-	stubs := StubFunc(&timeNow, time.Date(2015, 07, 2, 0, 0, 0, 0, time.UTC))
+	stubs := Func(&timeNow, time.Date(2015, 07, 2, 0, 0, 0, 0, time.UTC))
 	defer stubs.Restore()
 
 	fmt.Println("Day:", GetDay())

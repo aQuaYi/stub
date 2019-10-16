@@ -7,10 +7,10 @@ import (
 	. "github.com/aQuaYi/stub"
 )
 
-func ExampleStubFunc() {
+func ExampleFunc() {
 	var osHostname = os.Hostname
 
-	defer StubFunc(&osHostname, "fakehost", nil).Restore()
+	defer Func(&osHostname, "fakehost", nil).Restore()
 	host, err := osHostname()
 
 	fmt.Println("Host:", host, "err:", err)
@@ -18,10 +18,10 @@ func ExampleStubFunc() {
 	// Host: fakehost err: <nil>
 }
 
-func ExampleStub() {
+func ExampleVar() {
 	var counter = 100
 
-	defer Stub(&counter, 200).Restore()
+	defer Var(&counter, 200).Restore()
 	fmt.Println("Counter:", counter)
 	// Output:
 	// Counter: 200

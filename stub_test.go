@@ -16,7 +16,7 @@ func resetVars() {
 func TestStub(t *testing.T) {
 	resetVars()
 
-	stubs := Stub(&v1, 1)
+	stubs := Var(&v1, 1)
 
 	if v1 != 1 {
 		t.Errorf("expected")
@@ -29,7 +29,7 @@ func TestStub(t *testing.T) {
 func TestRestub(t *testing.T) {
 	resetVars()
 
-	stubs := Stub(&v1, 1)
+	stubs := Var(&v1, 1)
 	expectVal(t, v1, 1)
 	stubs.Stub(&v1, 2)
 	expectVal(t, v1, 2)
@@ -40,7 +40,7 @@ func TestRestub(t *testing.T) {
 func TestResetSingle(t *testing.T) {
 	resetVars()
 
-	stubs := Stub(&v1, 1).Stub(&v2, 2)
+	stubs := Var(&v1, 1).Stub(&v2, 2)
 	expectVal(t, v1, 1)
 	expectVal(t, v2, 2)
 
@@ -56,7 +56,7 @@ func TestResetSingle(t *testing.T) {
 func TestResetSingleNotStubbed(t *testing.T) {
 	resetVars()
 
-	stubs := Stub(&v1, 1)
+	stubs := Var(&v1, 1)
 	expectVal(t, v1, 1)
 
 	defer expectPanic(t, "ResetSingle unstubbed variable", "not been stubbed")
@@ -66,7 +66,7 @@ func TestResetSingleNotStubbed(t *testing.T) {
 func TestResetTwice(t *testing.T) {
 	resetVars()
 
-	stubs := Stub(&v1, 1)
+	stubs := Var(&v1, 1)
 	expectVal(t, v1, 1)
 
 	stubs.Restore()
@@ -82,7 +82,7 @@ func TestResetTwice(t *testing.T) {
 func TestMultipleStubs(t *testing.T) {
 	resetVars()
 
-	stubs := Stub(&v1, 1).Stub(&v2, 2).Stub(&v3, 3)
+	stubs := Var(&v1, 1).Stub(&v2, 2).Stub(&v3, 3)
 	expectVal(t, v1, 1)
 	expectVal(t, v2, 2)
 	expectVal(t, v3, 3)
@@ -100,10 +100,10 @@ func TestMultipleStubs(t *testing.T) {
 
 func TestVarNotPtr(t *testing.T) {
 	defer expectPanic(t, "Stub non-pointer", "expected to be a pointer")
-	Stub(v1, 1)
+	Var(v1, 1)
 }
 
 func TestTypeMismatch(t *testing.T) {
 	defer expectPanic(t, "Stub wrong type", "not assignable")
-	Stub(&v1, "test")
+	Var(&v1, "test")
 }

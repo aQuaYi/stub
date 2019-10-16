@@ -14,7 +14,7 @@ var dataReader io.Reader = bytes.NewReader([]byte(productionData))
 
 func TestAssignableStub(t *testing.T) {
 	const testData = "test data"
-	stubs := Stub(&dataReader, strings.NewReader(testData))
+	stubs := Var(&dataReader, strings.NewReader(testData))
 	defer stubs.Restore()
 
 	got, err := ioutil.ReadAll(dataReader)
@@ -30,5 +30,5 @@ func TestAssignableStub(t *testing.T) {
 func TestUnassignableStub(t *testing.T) {
 	defer expectPanic(t, "Stub wrong type", "not assignable")
 	var noInterface interface{} = "test"
-	Stub(&dataReader, noInterface)
+	Var(&dataReader, noInterface)
 }

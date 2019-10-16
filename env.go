@@ -9,15 +9,15 @@ func (s *Stubs) checkEnvKey(k string) {
 	}
 }
 
-// StubEnv stubs environmental variable
-func StubEnv(k, v string) *Stubs {
+// Env stubs environmental variable
+func Env(k, v string) *Stubs {
 	s := New()
-	s.StubEnv(k, v)
+	s.Env(k, v)
 	return s
 }
 
-// StubEnv the specified environent variable to the specified value.
-func (s *Stubs) StubEnv(k, v string) *Stubs {
+// Env the specified environent variable to the specified value.
+func (s *Stubs) Env(k, v string) *Stubs {
 	s.checkEnvKey(k)
 	os.Setenv(k, v)
 	return s
