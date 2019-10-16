@@ -12,7 +12,7 @@ func TestStubEnv(t *testing.T) {
 	os.Setenv("GOSTUB_T2", "V2")
 	os.Unsetenv("GOSTUB_NONE")
 
-	stubs := newStubber()
+	stubs := newStubs()
 
 	stubs.Env("GOSTUB_NONE", "a")
 	stubs.Env("GOSTUB_T1", "1")

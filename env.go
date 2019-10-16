@@ -4,7 +4,7 @@ import "os"
 
 // Env stubs environmental variable
 func Env(k, v string) Stubber {
-	return newStubber().Env(k, v)
+	return newStubs().Env(k, v)
 }
 
 func (s *stubs) checkEnvKey(k string) {
@@ -27,14 +27,4 @@ func (s *stubs) UnsetEnv(k string) *stubs {
 
 	os.Unsetenv(k)
 	return s
-}
-
-func (s *stubs) restoreEnv() {
-	for k, v := range s.envs {
-		if v.ok {
-			os.Setenv(k, v.val)
-		} else {
-			os.Unsetenv(k)
-		}
-	}
 }
