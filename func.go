@@ -33,6 +33,7 @@ func (s *stubs) Func(funcPtr interface{}, returns ...interface{}) Stubber {
 }
 
 // fakeFunc creates a new function with type funcType that returns results.
+// TODO: 弄清楚这个函数的运行
 func fakeFunc(funcType reflect.Type, results ...interface{}) reflect.Value {
 	var resultValues []reflect.Value
 	for i, r := range results {

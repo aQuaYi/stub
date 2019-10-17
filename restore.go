@@ -17,7 +17,7 @@ func (s *stubs) restoreVars() {
 
 func (s *stubs) restoreEnv() {
 	for k, v := range s.envs {
-		if v.isExisted {
+		if v.existing {
 			os.Setenv(k, v.val)
 		} else {
 			os.Unsetenv(k)

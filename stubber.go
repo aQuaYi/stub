@@ -28,8 +28,8 @@ type stubs struct {
 }
 
 type env struct {
-	val       string
-	isExisted bool
+	val      string
+	existing bool
 }
 
 // newStubs returns Stubs that can be used to stub out variables.
