@@ -1,4 +1,4 @@
-module github.com/aQuaYi/stub
+module github.com/aQuaYi/stub/v2
 
 go 1.13
 
